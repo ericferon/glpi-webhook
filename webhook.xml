@@ -1,0 +1,53 @@
+<root>
+	<name>Webhook</name>
+	<key>webhook</key>
+	<state>stable</state>
+	<!-- stable | unstable | beta | alpha -->
+	<logo>https://raw.githubusercontent.com/ericferon/glpi-webhook/master/webhook.svg</logo>
+	<description>
+		<short>
+			<en>This plugin let you notify another application about changes in inventoy items.<br/>Then, an API call to this other application can be performed to reflect this change into this other application.<br/></en>
+			<fr>Ce greffon vous permet de notifier, à une autre application, des changements relatifs à un élément d'inventaire.<br/>Un appel API peut alors être exécuté, pour reporter ce changement dans cette autre application.</fr>
+		</short>
+		<long>
+			<en>This plugin let you notify another application about changes in inventoy items.<br/>Then, an API call to this other application can be performed to reflect this change into this other application.<br/>See the plugin wiki on github for the user manual</en>
+			<fr>Ce greffon vous permet de notifier, à une autre application, des changements relatifs à un élément d'inventaire.<br/>Un appel API peut alors être exécuté, pour reporter ce changement dans cette autre application.<br/>Consultez le wiki sur github pour le manuel d'utilisation.</fr>
+		</long>
+	</description>
+	<homepage>https://github.com/ericferon/glpi-webhook</homepage>
+	<download>https://github.com/ericferon/glpi-webhook/releases</download>
+	<issues>https://github.com/ericferon/glpi-webhook/issues</issues>
+	<readme>https://github.com/ericferon/glpi-webhook/blob/master/README.md</readme>
+	<authors>
+		<author>Eric Feron</author>
+	</authors>
+	<versions>
+		<version>
+			<num>1.0.0</num>
+			<compatibility>~9.5.0 || ~10.0.0</compatibility>
+			<download_url>https://github.com/ericferon/glpi-webhook/releases/download/v1.0.0/webhook-v1.0.0.tar.gz</download_url>
+		</version>
+	</versions>
+	<langs>
+		<lang>en_GB</lang>
+		<lang>fr_FR</lang>
+	</langs>
+	<license>GPL v2+</license>
+	<tags>
+		<en>
+			<tag>Configuration</tag>
+			<tag>Export</tag>
+			<tag>Synchronization</tag>
+			<tag>Notification</tag>
+		</en>
+		<fr>
+			<tag>Configuration</tag>
+			<tag>Export</tag>
+			<tag>Synchronisation</tag>
+			<tag>Notification</tag>
+		</fr>
+	</tags>
+	<screenshots>
+		<screenshot>https://raw.githubusercontent.com/ericferon/glpi-webhook/master/webhook-example1.png</screenshot>
+	</screenshots>
+</root>
