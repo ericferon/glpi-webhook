@@ -4,29 +4,26 @@ php:
 branches:
   only:
   - master
-#addons:
-#  mariadb: '10.2'
-env: #|
-# in sequence :
-# get the directory name after the sign "-"
-# "git for-each-ref --sort=-taggerdate --count=1 --format '%(refname:short)' refs/tags" displays the last tag's shortname
-# "git for-each-ref --sort=-taggerdate --count=1 --format '%(contents:subject)' refs/tags" displays the last tag's first line
-# "git for-each-ref --sort=-taggerdate --count=1 --format '%(contents:body)' refs/tags" displays the last tag's 3d line and following ones
-#>
-  - GLPI_PLUGIN_NAME=`echo $TRAVIS_BUILD_DIR | sed -e 's/^.*-//'` TRAVIS_TAG=`git for-each-ref --sort=-taggerdate --count=1 --format '%(refname:short)' refs/tags` RELEASE_NAME=`git for-each-ref --sort=-taggerdate --count=1 --format '%(contents:subject)' refs/tags` RELEASE_BODY=`git for-each-ref --sort=-taggerdate --count=1 --format '%(contents:body)' refs/tags`
+env:
+- GLPI_PLUGIN_NAME=`echo $TRAVIS_BUILD_DIR | sed -e 's/^.*-//'` TRAVIS_TAG=`git for-each-ref
+  --sort=-taggerdate --count=1 --format '%(refname:short)' refs/tags` RELEASE_NAME=`git
+  for-each-ref --sort=-taggerdate --count=1 --format '%(contents:subject)' refs/tags`
+  RELEASE_BODY=`git for-each-ref --sort=-taggerdate --count=1 --format '%(contents:body)'
+  refs/tags`
 install: true
 script: true
 after_success:
-  - tar --transform "s%^%$GLPI_PLUGIN_NAME/%" --show-transformed -zcvf $GLPI_PLUGIN_NAME-$TRAVIS_TAG.tar.gz front inc locales sql $GLPI_PLUGIN_NAME.png *.svg *.xml *.php INSTALL.md LICENSE README.md
+- tar --transform "s%^%$GLPI_PLUGIN_NAME/%" --show-transformed -zcvf $GLPI_PLUGIN_NAME-$TRAVIS_TAG.tar.gz
+  front inc locales sql $GLPI_PLUGIN_NAME.png *.svg *.xml *.php INSTALL.md LICENSE
+  README.md
 deploy:
   provider: releases
-#  edge: true
   token:
-    secure: yESvH+A7hNTGgqKXYTeCLzAuNpB3oQYAYh6wJvsVl0wdQ3CFIGla1LfjqsJu5IAUsuj+Xmgfixo35ZAserl+tqI6TJ0xGxlbqq7/O0uN/AWQ4UVZZovriCqqK5WFnt/7ECg/jP2xp0cO2fYOZjJXfenW3//pnsigJIaZRBRGN7aoxrZdaI6OMPkYz11gW/SUisRmdO5Tj4TAQTddbD++40slOXc+HsV8xDslxpakny+XUZjf6JGUqWPR0Dw76/CId4u6ymCyij/4L3tblUw3epCUu7efaPmezmy+6OXI3pUYlaOqySWdmPxwhRPkVapRC2VtXOkVKqetHiDMaeIfa3smyEF+3uUvGhHBB2j33uUnhV5F6QFYiX2KVXm6jXsKH2xfUegY+7Kqlmo7/zBGnvepaft6rCFsQC2IHNuvivNZmKcvxR1/N4agFueVh8JccLyE2CYovfxzgspNrhl4id9bWCYCXwN1cl2HXnIAY4dQ5jXMFTRKoXIttdH4v0XFAgIvAvL5DmqGfqnNCFvO+P45xYXzlh/Go0WCTIdly/HgilnpFAcJsKqUPaRPCy5xZrfrmfPjgdu5bibc5FaxCMoUMI9sQUZFiFfVn9mxuwDXf7s4PNnmVjT4yFl1PYoF4vLBzX5gmocjwMWF6Cj7qjASmnkRBSuwPQ3dTI+5DIQ=
+    secure: yHLFb2ov0eEWljgqopvxYOxMyOGLBUt88HCgNyVBOmhTC9LxOg8ksCSPFbnNpF7yrTqYD30n9HuH64rNPxo+us94VDyAPFoVo3lOFhrAGmAp4Ge7Fq6pZn+kfmyK5sNAHMiFoS8rfCU33vaLG/y+dvCIq8Z3ukGI6ciFfbeQh7eBYgJVtK27m5xb3H0FXXbX8NxmPbvv54Z4UW+To5KF/uMUe6BZvVZRB43GeWlTb7LlWlKrZZoXXc7eWUbvKrP7+TuADbzsVhm2VRfmiw0iHma1eoXd+MIZPDoQboY83VlV5YasXek9nGcCpdoXVUrMw5fgOywiajVfnnXJGImVioQ5Vg+JzCn1zSZl+VY8gNfQpQjkmrL/PwW0EQCyycKdMBHFd28XO9Ls7bYuDMc6Ghmrx6EbSvQDLR4hGDhWWfRhm7dfBMX2rJGZbEHuf204sCzwFkUb0GL0Lmvd4Cme5zbIBL0ilMqkSPZZy606rGMULqVxqELHW+9rQamPnDmw+pvkVFctwk1JCCfDfOrVcUZp7zbW+wdsJO6eKq+klGWU0isaFjHQ7pc77/9RZQlCcwrJB1aiK5oeDwf6+4VVVi6S0Tg0gphJrQbEAcwbyQbcvWDH3fMCaN/fJobYonz6nbvc0appCwPV6/JcfM3HkloyxMhwG92qGRVkvNYWuM8=
   skip_cleanup: true
-  file: $GLPI_PLUGIN_NAME-$TRAVIS_TAG.tar.gz
-  name: $RELEASE_NAME
-  body: $RELEASE_BODY
+  file: "$GLPI_PLUGIN_NAME-$TRAVIS_TAG.tar.gz"
+  name: "$RELEASE_NAME"
+  body: "$RELEASE_BODY"
   prerelease: false
   on:
     repo: ericferon/glpi-$GLPI_PLUGIN_NAME
