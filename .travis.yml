@@ -20,10 +20,10 @@ after_success:
   - tar --transform "s%^%$GLPI_PLUGIN_NAME/%" --show-transformed -zcvf $GLPI_PLUGIN_NAME-$TRAVIS_TAG.tar.gz front inc locales sql $GLPI_PLUGIN_NAME.png *.svg *.xml *.php INSTALL.md LICENSE README.md
 deploy:
   provider: releases
-  edge: true # for travis v2
+  edge: true
   token:
-    secure: MhjaW3RLoWoxA8WwNNccsyv+6gwBjTeuTJt+t+9RhBrgOiD694BX7isxCaCX5LlsiiQ27GGBxKNhErvUYAE4TqX0/RaRT4d9XfcJTf79oQbq18mxd4vufMbLIQXrDjh0+YJHAFOzeJnLD8ZYPEdcGsDIKgoBD9ox0VCpTE9C3rShLlMKnFBpAzzFJRXFjHZG+Hni9tEdFrM2X82C+rR7wCvP337KZNoi+jcKBQ2eLp4OlK9w+/4A1MPUyIViVwQvJpsjwnLZlNVSd/GtRHUyhOVFYITv5qK8Bz8EHTrBzF3hmxPFK40mRcV3x2c2L8EPW32G1DD47nXJCvciQhNunFvqPtFt/XQo2cnvu3ILN+Lzft9ZWnVk3DRW3MpiQj/tAk8ZCFYQNQzuLZI61m7/URQPuNi9IyzF81gT8ply3WOwpUD8ZdYFoLxibW9oGqxdWvFBKFFjl0HcKghLDE9PwrYob/+EUY/hYBMclcmuGyZSCLHyZZER6J6NEel7qQxhV37IRCqPuEjN0WdHJn3AaQgOrDSd4yTan36eB18FWUzgQWPXCczqHlmC8XcB1KvkUESFTzl8WF5zSKJvQTV0IzTPDNRO8aXGyRaPtPH3R/tn29zot5Tlv3+1kqxpcCrhuaty0JJAfQbyNrdEWVYjBKLCQ3m6Zl8EzWyqeVpNM5w=
-  skip_cleanup: true
+    secure: yESvH+A7hNTGgqKXYTeCLzAuNpB3oQYAYh6wJvsVl0wdQ3CFIGla1LfjqsJu5IAUsuj+Xmgfixo35ZAserl+tqI6TJ0xGxlbqq7/O0uN/AWQ4UVZZovriCqqK5WFnt/7ECg/jP2xp0cO2fYOZjJXfenW3//pnsigJIaZRBRGN7aoxrZdaI6OMPkYz11gW/SUisRmdO5Tj4TAQTddbD++40slOXc+HsV8xDslxpakny+XUZjf6JGUqWPR0Dw76/CId4u6ymCyij/4L3tblUw3epCUu7efaPmezmy+6OXI3pUYlaOqySWdmPxwhRPkVapRC2VtXOkVKqetHiDMaeIfa3smyEF+3uUvGhHBB2j33uUnhV5F6QFYiX2KVXm6jXsKH2xfUegY+7Kqlmo7/zBGnvepaft6rCFsQC2IHNuvivNZmKcvxR1/N4agFueVh8JccLyE2CYovfxzgspNrhl4id9bWCYCXwN1cl2HXnIAY4dQ5jXMFTRKoXIttdH4v0XFAgIvAvL5DmqGfqnNCFvO+P45xYXzlh/Go0WCTIdly/HgilnpFAcJsKqUPaRPCy5xZrfrmfPjgdu5bibc5FaxCMoUMI9sQUZFiFfVn9mxuwDXf7s4PNnmVjT4yFl1PYoF4vLBzX5gmocjwMWF6Cj7qjASmnkRBSuwPQ3dTI+5DIQ=
+#  skip_cleanup: true
   file: $GLPI_PLUGIN_NAME-$TRAVIS_TAG.tar.gz
   name: $RELEASE_NAME
   release_notes: $RELEASE_BODY
