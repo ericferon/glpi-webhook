@@ -1,0 +1,107 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-29 16:37+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Add webhook
+#: setup.php:112
+#, php-format
+msgid "%1$s: %2$s"
+msgstr ""
+
+#. address
+#: inc/config.class.php:75 inc/config.class.php:137
+msgid "Address"
+msgstr ""
+
+#: inc/profile.class.php:135
+msgid "Configuration"
+msgstr ""
+
+#: inc/profile.class.php:133
+msgid "Create"
+msgstr ""
+
+#: inc/notificationwebhooksetting.class.php:42
+msgid "Enable notifications via webhook"
+msgstr ""
+
+#: inc/profile.class.php:117
+msgid "General"
+msgstr ""
+
+#: inc/config.class.php:100
+msgid "ID"
+msgstr ""
+
+#: inc/notificationwebhooksetting.class.php:73
+msgid "Max. delivery retries"
+msgstr ""
+
+#. name
+#: inc/config.class.php:66 inc/config.class.php:124
+msgid "Name"
+msgstr ""
+
+#: inc/notificationwebhooksetting.class.php:92
+msgid "Notifications are disabled."
+msgstr ""
+
+#: inc/profile.class.php:133
+msgid "Read"
+msgstr ""
+
+#. address
+#: inc/config.class.php:150
+msgid "Secret"
+msgstr ""
+
+#: inc/notificationwebhooksetting.class.php:92
+msgid "See configuration"
+msgstr ""
+
+#: inc/notificationwebhooksetting.class.php:79
+msgid "Try to deliver again in (minutes)"
+msgstr ""
+
+#. operation
+#. type
+#: inc/config.class.php:132 inc/config.class.php:145
+msgid "Type"
+msgstr ""
+
+#: inc/profile.class.php:133
+msgid "Update"
+msgstr ""
+
+#. user
+#: inc/config.class.php:163
+msgid "User"
+msgstr ""
+
+#. mode itself
+#: setup.php:39 setup.php:112
+msgid "Webhook"
+msgstr ""
+
+#: inc/notificationwebhooksetting.class.php:37
+msgid "Webhook notifications configuration"
+msgstr ""
+
+#: inc/config.class.php:40
+msgid "Webhooks"
+msgstr ""
