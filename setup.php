@@ -61,7 +61,7 @@ function plugin_version_webhook() {
 
    return [
       'name' => _n('Webhook', 'Webhooks', 2, 'webhook'),
-      'version' => '1.0.1',
+      'version' => '1.0.2',
       'author'  => "Eric Feron",
       'license' => 'GPLv2+',
       'homepage'=> 'https://github.com/ericferon/glpi-webhook',
@@ -77,10 +77,10 @@ function plugin_version_webhook() {
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_webhook_check_prerequisites() {
-   if (version_compare(GLPI_VERSION, '9.5', 'lt')
+   if (version_compare(GLPI_VERSION, '10.0', 'lt')
        || version_compare(GLPI_VERSION, '10.1', 'ge')) {
       if (method_exists('Plugin', 'messageIncompatible')) {
-         echo Plugin::messageIncompatible('core', '9.5');
+         echo Plugin::messageIncompatible('core', '10.0');
       }
       return false;
    }
@@ -99,15 +99,17 @@ function plugin_webhook_add_targets($notificationtarget) {
       global $DB;
 
       // Filter webhooks which can be notified
-      $iterator = $DB->request([
+/*      $iterator = $DB->request([
          'SELECT' => ['id', 'name'],
          'FROM'   => PluginWebhookConfig::getTable(),
          'ORDER'  => 'name'
       ]);
-
-      while ($data = $iterator->next()) {
+*/
+	  $query = "SELECT id, name FROM ".PluginWebhookConfig::getTable()." ORDER BY name";
+      $result = $DB->query($query);
+      while ($data = $DB->fetchRow($result)) {
          //Add webhook
-         $notificationtarget->addTarget($data["id"], sprintf(__('%1$s: %2$s'), __('Webhook', 'webhook'), $data["name"]),
+         $notificationtarget->addTarget($data[0], sprintf(__('%1$s: %2$s'), __('Webhook', 'webhook'), $data[1]),
                           PluginWebhookConfig::WEBHOOK_TYPE);
       }
    }
@@ -142,7 +144,7 @@ function plugin_webhook_add_targets($notificationtarget) {
 				'username'				=> '',
 				'users_id'				=> $data['id'],*/
 			];
-			$notificationtarget->target[$data[$target_field]] = $param;
+			$notificationtarget->notification_targets[$data[$target_field]] = $param;
 		}
 	}
 }

@@ -134,7 +134,7 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
 				{	
 					$notificationtarget->addForTarget($target, $params['options']);
 
-					foreach ($notificationtarget->getTargets() as $webhook_infos) {
+					foreach ($notificationtarget->notification_targets as $webhook_infos) {
 						if (PluginWebhookNotificationEventWebhook::validateSendTo($event, $webhook_infos))
 						{
 							$key = $webhook_infos[static::getTargetFieldName()];
