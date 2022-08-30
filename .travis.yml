@@ -1,6 +1,6 @@
 language: php
 php:
-- '8.1'
+- '7.2'
 branches:
   only:
   - master
@@ -21,9 +21,9 @@ deploy:
   token:
     secure: yHLFb2ov0eEWljgqopvxYOxMyOGLBUt88HCgNyVBOmhTC9LxOg8ksCSPFbnNpF7yrTqYD30n9HuH64rNPxo+us94VDyAPFoVo3lOFhrAGmAp4Ge7Fq6pZn+kfmyK5sNAHMiFoS8rfCU33vaLG/y+dvCIq8Z3ukGI6ciFfbeQh7eBYgJVtK27m5xb3H0FXXbX8NxmPbvv54Z4UW+To5KF/uMUe6BZvVZRB43GeWlTb7LlWlKrZZoXXc7eWUbvKrP7+TuADbzsVhm2VRfmiw0iHma1eoXd+MIZPDoQboY83VlV5YasXek9nGcCpdoXVUrMw5fgOywiajVfnnXJGImVioQ5Vg+JzCn1zSZl+VY8gNfQpQjkmrL/PwW0EQCyycKdMBHFd28XO9Ls7bYuDMc6Ghmrx6EbSvQDLR4hGDhWWfRhm7dfBMX2rJGZbEHuf204sCzwFkUb0GL0Lmvd4Cme5zbIBL0ilMqkSPZZy606rGMULqVxqELHW+9rQamPnDmw+pvkVFctwk1JCCfDfOrVcUZp7zbW+wdsJO6eKq+klGWU0isaFjHQ7pc77/9RZQlCcwrJB1aiK5oeDwf6+4VVVi6S0Tg0gphJrQbEAcwbyQbcvWDH3fMCaN/fJobYonz6nbvc0appCwPV6/JcfM3HkloyxMhwG92qGRVkvNYWuM8=
   skip_cleanup: true
-  file: "$GLPI_PLUGIN_NAME-$TRAVIS_TAG.tar.gz"
-  name: "$RELEASE_NAME"
-  body: "$RELEASE_BODY"
+  file: $GLPI_PLUGIN_NAME-$TRAVIS_TAG.tar.gz
+  name: $RELEASE_NAME
+  release_notes: $RELEASE_BODY
   prerelease: false
   on:
     repo: ericferon/glpi-$GLPI_PLUGIN_NAME
