@@ -10,8 +10,8 @@
 			<fr>Ce greffon vous permet de notifier, à une autre application, des changements relatifs à un élément d'inventaire.<br/>Un appel API peut alors être exécuté, pour reporter ce changement dans cette autre application.</fr>
 		</short>
 		<long>
-			<en>This plugin let you notify another application about changes in inventoy items.<br/>Then, an API call to this other application can be performed to reflect this change into this other application.<br/>See the plugin wiki on github for the user manual</en>
-			<fr>Ce greffon vous permet de notifier, à une autre application, des changements relatifs à un élément d'inventaire.<br/>Un appel API peut alors être exécuté, pour reporter ce changement dans cette autre application.<br/>Consultez le wiki sur github pour le manuel d'utilisation.</fr>
+			<en>This plugin let you notify another application about changes in inventoy items.<br/>Then, an API call to this other application can be performed to reflect this change into this other application.<br/>See the plugin wiki on github for the user manual (https://github.com/ericferon/glpi-webhook/wiki).</en>
+			<fr>Ce greffon vous permet de notifier, à une autre application, des changements relatifs à un élément d'inventaire.<br/>Un appel API peut alors être exécuté, pour reporter ce changement dans cette autre application.<br/>Consultez le wiki sur github pour le manuel d'utilisation(https://github.com/ericferon/glpi-webhook/wiki).</fr>
 		</long>
 	</description>
 	<homepage>https://github.com/ericferon/glpi-webhook</homepage>
@@ -24,7 +24,7 @@
 	<versions>
 		<version>
 			<num>1.0.2</num>
-			<compatibility>~9.5.0 || ~10.0.0</compatibility>
+			<compatibility>~10.0.0</compatibility>
 			<download_url>https://github.com/ericferon/glpi-webhook/releases/download/v1.0.2/webhook-v1.0.2.tar.gz</download_url>
 		</version>
 		<version>
