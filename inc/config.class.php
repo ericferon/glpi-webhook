@@ -122,47 +122,47 @@ class PluginWebhookConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       //name
       echo "<td>".__('Name')."</td>";
-      echo "<td>";
-      Html::autocompletionTextField($this,"name", ['size' => 50, 'attrs' => ['size' => 50]]);
+      echo "<td colspan='3'>";
+      echo Html::input('name',['value' => $this->fields['name'], 'id' => "name" , 'width' => '100%']);
       echo "</td>";
 	  echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
       //operation
-      echo "<td>".__('Type').": </td>";
+      echo "<td>".__('REST Verb').": </td>";
       echo "<td>";
       Dropdown::show('PluginWebhookOperationtype', ['value' => $this->fields['plugin_webhook_operationtypes_id']]);
       echo "</td>";
       //address
       echo "<td>".__('Address', 'webhook')."</td>";
       echo "<td>";
-      Html::autocompletionTextField($this,"address",['size' => 100, 'attrs' => ['size' => 100]]);
+      echo Html::input('address',['value' => $this->fields['address'], 'id' => "address" , 'width' => '100%']);
       echo "</td>";
 	  echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
       //type
-      echo "<td>".__('Type').": </td>";
+      echo "<td>".__('Authentication Type').": </td>";
       echo "<td>";
       Dropdown::show('PluginWebhookSecrettype', ['value' => $this->fields['plugin_webhook_secrettypes_id']]);
       echo "</td>";
-      //address
+      //secret
       echo "<td>".__('Secret', 'webhook')."</td>";
       echo "<td>";
-      Html::autocompletionTextField($this,"secret",['size' => 100, 'attrs' => ['size' => 100]]);
+      echo Html::input('secret',['value' => $this->fields['secret'], 'id' => "secret" , 'width' => '100%']);
       echo "</td>";
 	  echo "</tr>";
 	  
       echo "<tr class='tab_bg_1'>";
       //empty
-      echo "<td>".": </td>";
+      echo "<td>"."</td>";
       echo "<td>";
       ;
       echo "</td>";
       //user
       echo "<td>".__('User')."</td>";
       echo "<td>";
-      Html::autocompletionTextField($this,"user",['size' => 50, 'attrs' => ['size' => 50]]);
+      echo Html::input('user',['value' => $this->fields['user'], 'id' => "user" , 'size' => 50]);
       echo "</td>";
 	  echo "</tr>";
 
