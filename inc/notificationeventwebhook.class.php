@@ -70,7 +70,7 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
     *
     * @return boolean
    **/
-   function validateSendTo($event, array $infos) {
+   static public function validateSendTo($event, $infos) {
 	if (is_array($infos) && isset($infos['additionnaloption']))
 	{
 		$url = $infos['additionnaloption']['address'];
@@ -113,10 +113,10 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
 		$notificationtarget = new $notificationtargetclass($entity, $event, $object, $options);
 		$notificationtarget->setEvent('PluginWebhookNotificationEventWebhook');
 		$notificationtarget->setMode($params['options']['mode']);
-		$notificationtarget->data = $params['notificationtarget']->data;
-		$notificationtarget->tag_descriptions = $params['notificationtarget']->tag_descriptions;
-		$notificationtarget->events = $params['notificationtarget']->events;
-		$notificationtarget->target = $params['notificationtarget']->target;
+		$notificationtarget->data = isset($params['notificationtarget']->data) ? $params['notificationtarget']->data : [];
+		$notificationtarget->tag_descriptions = isset($params['notificationtarget']->tag_descriptions) ? $params['notificationtarget']->tag_descriptions : [];
+		$notificationtarget->events = isset($params['notificationtarget']->events) ? $params['notificationtarget']->events : [];
+		$notificationtarget->target = isset($params['notificationtarget']->target) ? $params['notificationtarget']->target : [];
 		$template = new NotificationTemplate;
 		$template = $params['template'];
 		$targets = getAllDataFromTable(
@@ -134,11 +134,11 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
 				{	
 					$notificationtarget->addForTarget($target, $params['options']);
 
-					foreach ($notificationtarget->notification_targets as $webhook_infos) {
+					foreach ($notificationtarget->getTargets() as $webhook_infos) {
 						if (PluginWebhookNotificationEventWebhook::validateSendTo($event, $webhook_infos))
 						{
 							$key = $webhook_infos[static::getTargetFieldName()];
-							$url = $webhook_infos['additionnaloption']['address'];    
+							$url = $webhook_infos['additionnaloption']['address']; 
 							if ($template_datas = $template->getByLanguage($webhook_infos['language']))
 							{
 								$data = &$notificationtarget->getForTemplate($event, $options);
@@ -150,7 +150,14 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
 								$secrettype = $webhook_infos['additionnaloption']['plugin_webhook_secrettypes_id'];    
 								switch ($secrettype)
 								{
-									case 1: // Basic Authentication
+									case 1: // No Authentication
+									$headers = 
+										[
+										'Content-type: application/json'
+										];
+									break;
+
+									case 2: // Basic Authentication
 									$headers = 
 										[
 										'Content-type: application/json',
@@ -158,7 +165,7 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
 										];
 									break;
 
-									case 2: // Basic Authentication with base64 encoding
+									case 3: // Basic Authentication with base64 encoding
 									$headers = 
 										[
 										'Content-type: application/json',
@@ -166,7 +173,7 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
 										];
 									break;
 
-									case 3: // JSON Web Token
+									case 4: // JSON Web Token
 									break;
 								}
 								
@@ -182,6 +189,7 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
 
 								if ( $status != 200 && $status != 201 ) {
 									Session::addMessageAfterRedirect("<font color='red'>"."Error: call to URL $url failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl)."</font>", false, ERROR);
+									Toolbox::logInFile("webhook", "Error: call to URL $url failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl).PHP_EOL);
 								}
 
 								curl_close($curl);

@@ -61,13 +61,13 @@ function plugin_version_webhook() {
 
    return [
       'name' => _n('Webhook', 'Webhooks', 2, 'webhook'),
-      'version' => '1.0.3',
+      'version' => '1.0.4',
       'author'  => "Eric Feron",
       'license' => 'GPLv2+',
       'homepage'=> 'https://github.com/ericferon/glpi-webhook',
       'requirements' => [
          'glpi' => [
-            'min' => '10.0',
+            'min' => '10.0.3',
             'dev' => false
          ]
       ]
@@ -77,7 +77,7 @@ function plugin_version_webhook() {
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_webhook_check_prerequisites() {
-   if (version_compare(GLPI_VERSION, '10.0', 'lt')
+   if (version_compare(GLPI_VERSION, '10.0.3', 'lt')
        || version_compare(GLPI_VERSION, '10.1', 'ge')) {
       if (method_exists('Plugin', 'messageIncompatible')) {
          echo Plugin::messageIncompatible('core', '10.0');
@@ -117,34 +117,36 @@ function plugin_webhook_add_targets($notificationtarget) {
    function plugin_webhook_action_targets($notificationtarget) {
 	global $DB, $CFG_GLPI;
 
-	// Filter webhooks which can be notified
+// Filter webhooks which can be notified
 	if (isset($notificationtarget->data) && isset($notificationtarget->data['type']) && $notificationtarget->data['type'] == PluginWebhookConfig::WEBHOOK_TYPE)
 	{
       $new_lang = '';
 
-		$iterator = $DB->request([
-			'SELECT' => [],
-			'FROM'   => PluginWebhookConfig::getTable(),
-			'WHERE'	 => ['id' => isset($notificationtarget->data['items_id'])?$notificationtarget->data['items_id']:'%'],
-			'ORDER'  => 'name'
-		]);
+	  $query = "SELECT * FROM ".PluginWebhookConfig::getTable()." WHERE id like '".(isset($notificationtarget->data['items_id'])?$notificationtarget->data['items_id']:'%')."' ORDER BY name";
+      $result = $DB->query($query);
 
-		while ($data = $iterator->next()) {
-			//Add webhook
-			if (isset($data['language'])) {
-				$new_lang = trim($data['language']);
-			}
-			$target_field = PluginWebhookNotificationEventWebhook::getTargetField($data);
+      while ($data = $DB->fetchRow($result)) {
 			$notificationoption = ['usertype' => PluginWebhookConfig::WEBHOOK_TYPE];
-			$notificationoption = array_merge($data,
-                                        $notificationoption);
+			foreach ($data as $nb => $field) {
+				$fieldname = $DB->fieldName($result, $nb);
+				if ($fieldname)
+					$notificationoption[$fieldname] = $field;
+			}
+			//Add webhook
+			if (isset($notificationoption['language'])) {
+				$new_lang = trim($notificationoption['language']);
+			}
+			$target_field = PluginWebhookNotificationEventWebhook::getTargetField($notificationoption);
 			$param = [
 				'language'				=> (empty($new_lang) ? $CFG_GLPI["language"] : $new_lang),
-				'additionnaloption' 	=> $notificationoption/*,
-				'username'				=> '',
-				'users_id'				=> $data['id'],*/
+				'additionnaloption' 	=> $notificationoption,
+				'id'					=> isset($notificationoption['id']) ? $notificationoption['id'] : 0,
+				'name'					=> isset($notificationoption['name']) ? $notificationoption['name'] : "",
+				'username'				=> isset($notificationoption['user']) ? $notificationoption['user'] : "",
+				'address'				=> isset($notificationoption['address']) ? $notificationoption['address'] : ""
 			];
-			$notificationtarget->notification_targets[$data[$target_field]] = $param;
+//			$notificationtarget->notification_targets[$notificationoption[$target_field]] = $param;
+			$notificationtarget->target[$notificationoption[$target_field]] = $param;
 		}
 	}
 }
