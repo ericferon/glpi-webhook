@@ -31,14 +31,19 @@ function plugin_webhook_install() {
 
 	if (!$DB->TableExists("glpi_plugin_webhook_configs")) {
 
-		$DB->runFile(Plugin::getPhpDir("webhook")."/sql/empty-1.0.0.sql");
+		$DB->runFile(Plugin::getPhpDir("webhook")."/sql/empty-1.0.2.sql");
 	}
 	else {
-/*		if ($DB->TableExists("glpi_plugin_webhook_rules") && !!$DB->FieldExists("glpi_plugin_webhook_rules","plugin_webhook_indicators_id")) {
-			$update=true;
-			$DB->runFile(Plugin::getPhpDir("webhook")."/sql/update-1.0.1.sql");
+		if ($DB->TableExists("glpi_plugin_webhook_secrettypes")) {
+			$query = "SELECT name FROM glpi_plugin_webhook_secrettypes WHERE id=2";
+			$result = $DB->query($query);
+			while ($data = $DB->fetchRow($result)) {
+				if ($data[0] == "Encoded Basic Authentication") {
+					$DB->runFile(Plugin::getPhpDir("webhook")."/sql/update-1.0.1.sql");
+				}
+			}
 		}
-*/	}
+	}
 
 
 	Config::setConfigurationValues('core', ['notifications_webhook' => 0]);
@@ -57,7 +62,7 @@ function plugin_webhook_uninstall() {
 	$config = new Config();
 	$config->deleteConfigurationValues('core', ['notifications_webhook']);
    
-	$tables = ["glpi_plugin_webhook_configs", "glpi_plugin_webhook_secrettypes"];
+	$tables = ["glpi_plugin_webhook_configs", "glpi_plugin_webhook_secrettypes", "glpi_plugin_webhook_operationtypes"];
 
 	foreach($tables as $table)
 		$DB->query("DROP TABLE IF EXISTS `$table`;");

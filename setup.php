@@ -61,7 +61,7 @@ function plugin_version_webhook() {
 
    return [
       'name' => _n('Webhook', 'Webhooks', 2, 'webhook'),
-      'version' => '1.0.4',
+      'version' => '1.0.5',
       'author'  => "Eric Feron",
       'license' => 'GPLv2+',
       'homepage'=> 'https://github.com/ericferon/glpi-webhook',
@@ -99,12 +99,7 @@ function plugin_webhook_add_targets($notificationtarget) {
       global $DB;
 
       // Filter webhooks which can be notified
-/*      $iterator = $DB->request([
-         'SELECT' => ['id', 'name'],
-         'FROM'   => PluginWebhookConfig::getTable(),
-         'ORDER'  => 'name'
-      ]);
-*/
+
 	  $query = "SELECT id, name FROM ".PluginWebhookConfig::getTable()." ORDER BY name";
       $result = $DB->query($query);
       while ($data = $DB->fetchRow($result)) {
@@ -117,7 +112,6 @@ function plugin_webhook_add_targets($notificationtarget) {
    function plugin_webhook_action_targets($notificationtarget) {
 	global $DB, $CFG_GLPI;
 
-// Filter webhooks which can be notified
 	if (isset($notificationtarget->data) && isset($notificationtarget->data['type']) && $notificationtarget->data['type'] == PluginWebhookConfig::WEBHOOK_TYPE)
 	{
       $new_lang = '';
