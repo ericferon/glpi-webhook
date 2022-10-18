@@ -39,7 +39,7 @@ function plugin_webhook_install() {
 			$result = $DB->query($query);
 			while ($data = $DB->fetchRow($result)) {
 				if ($data[0] == "Encoded Basic Authentication") {
-					$DB->runFile(Plugin::getPhpDir("webhook")."/sql/update-1.0.1.sql");
+					$DB->runFile(Plugin::getPhpDir("webhook")."/sql/update-1.0.2.sql");
 				}
 			}
 		}

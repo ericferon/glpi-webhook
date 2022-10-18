@@ -30,8 +30,54 @@ function plugin_init_webhook() {
 
 	$PLUGIN_HOOKS['csrf_compliant']['webhook'] = true;
 	$PLUGIN_HOOKS['change_profile']['webhook'] = ['PluginWebhookProfile', 'initProfile'];
-	$PLUGIN_HOOKS['item_add_targets']['webhook']['PluginStatecheckNotificationTargetRule'] = 'plugin_webhook_add_targets';
-	$PLUGIN_HOOKS['item_action_targets']['webhook']['PluginStatecheckNotificationTargetRule'] = 'plugin_webhook_action_targets';
+	$PLUGIN_HOOKS['item_add_targets']['webhook'] = [
+		'NotificationTarget' => 'plugin_webhook_add_targets',
+		'NotificationTargetTicket' => 'plugin_webhook_add_targets',
+		'NotificationTargetUser' => 'plugin_webhook_add_targets',
+		'NotificationTargetReservation' => 'plugin_webhook_add_targets',
+		'NotificationTargetDBConnection' => 'plugin_webhook_add_targets',
+		'NotificationTargetSavedSearch_Alert' => 'plugin_webhook_add_targets',
+		'NotificationTargetCartridgeItem' => 'plugin_webhook_add_targets',
+		'NotificationTargetCertificate' => 'plugin_webhook_add_targets',
+		'NotificationTargetChange' => 'plugin_webhook_add_targets',
+		'NotificationTargetConsumableItem' => 'plugin_webhook_add_targets',
+		'NotificationTargetContract' => 'plugin_webhook_add_targets',
+		'NotificationTargetDomain' => 'plugin_webhook_add_targets',
+		'NotificationTargetFieldUnicity' => 'plugin_webhook_add_targets',
+		'NotificationTargetInfocom' => 'plugin_webhook_add_targets',
+		'NotificationTargetSoftwareLicense' => 'plugin_webhook_add_targets',
+		'Glpi\Marketplace\NotificationTargetController' => 'plugin_webhook_add_targets',
+		'NotificationTargetObjectLock' => 'plugin_webhook_add_targets',
+		'NotificationTargetPlanningRecall' => 'plugin_webhook_add_targets',
+		'NotificationTargetProblem' => 'plugin_webhook_add_targets',
+		'NotificationTargetProject' => 'plugin_webhook_add_targets',
+		'NotificationTargetProjectTask' => 'plugin_webhook_add_targets',
+		'NotificationTargetMailCollector' => 'plugin_webhook_add_targets',
+		'PluginStatecheckNotificationTargetRule' => 'plugin_webhook_add_targets'];
+	$PLUGIN_HOOKS['item_action_targets']['webhook'] = [
+		'NotificationTarget' => 'plugin_webhook_action_targets',
+		'NotificationTargetTicket' => 'plugin_webhook_action_targets',
+		'NotificationTargetUser' => 'plugin_webhook_action_targets',
+		'NotificationTargetReservation' => 'plugin_webhook_action_targets',
+		'NotificationTargetDBConnection' => 'plugin_webhook_action_targets',
+		'NotificationTargetSavedSearch_Alert' => 'plugin_webhook_action_targets',
+		'NotificationTargetCartridgeItem' => 'plugin_webhook_action_targets',
+		'NotificationTargetCertificate' => 'plugin_webhook_action_targets',
+		'NotificationTargetChange' => 'plugin_webhook_action_targets',
+		'NotificationTargetConsumableItem' => 'plugin_webhook_action_targets',
+		'NotificationTargetContract' => 'plugin_webhook_action_targets',
+		'NotificationTargetDomain' => 'plugin_webhook_action_targets',
+		'NotificationTargetFieldUnicity' => 'plugin_webhook_action_targets',
+		'NotificationTargetInfocom' => 'plugin_webhook_action_targets',
+		'NotificationTargetSoftwareLicense' => 'plugin_webhook_action_targets',
+		'Glpi\Marketplace\NotificationTargetController' => 'plugin_webhook_action_targets',
+		'NotificationTargetObjectLock' => 'plugin_webhook_action_targets',
+		'NotificationTargetPlanningRecall' => 'plugin_webhook_action_targets',
+		'NotificationTargetProblem' => 'plugin_webhook_action_targets',
+		'NotificationTargetProject' => 'plugin_webhook_action_targets',
+		'NotificationTargetProjectTask' => 'plugin_webhook_action_targets',
+		'NotificationTargetMailCollector' => 'plugin_webhook_action_targets',
+		'PluginStatecheckNotificationTargetRule' => 'plugin_webhook_action_targets'];
 	$plugin = new Plugin();
 	if ($plugin->isActivated('webhook')) {
 		Notification_NotificationTemplate::registerMode(
@@ -61,7 +107,7 @@ function plugin_version_webhook() {
 
    return [
       'name' => _n('Webhook', 'Webhooks', 2, 'webhook'),
-      'version' => '1.0.5',
+      'version' => '1.0.6',
       'author'  => "Eric Feron",
       'license' => 'GPLv2+',
       'homepage'=> 'https://github.com/ericferon/glpi-webhook',
@@ -109,7 +155,7 @@ function plugin_webhook_add_targets($notificationtarget) {
       }
    }
 
-   function plugin_webhook_action_targets($notificationtarget) {
+function plugin_webhook_action_targets($notificationtarget) {
 	global $DB, $CFG_GLPI;
 
 	if (isset($notificationtarget->data) && isset($notificationtarget->data['type']) && $notificationtarget->data['type'] == PluginWebhookConfig::WEBHOOK_TYPE)
