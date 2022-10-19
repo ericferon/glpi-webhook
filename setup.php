@@ -53,6 +53,7 @@ function plugin_init_webhook() {
 		'NotificationTargetProject' => 'plugin_webhook_add_targets',
 		'NotificationTargetProjectTask' => 'plugin_webhook_add_targets',
 		'NotificationTargetMailCollector' => 'plugin_webhook_add_targets',
+		'PluginFormcreatorNotificationTargetFormAnswer' => 'plugin_webhook_add_targets',
 		'PluginStatecheckNotificationTargetRule' => 'plugin_webhook_add_targets'];
 	$PLUGIN_HOOKS['item_action_targets']['webhook'] = [
 		'NotificationTarget' => 'plugin_webhook_action_targets',
@@ -77,6 +78,7 @@ function plugin_init_webhook() {
 		'NotificationTargetProject' => 'plugin_webhook_action_targets',
 		'NotificationTargetProjectTask' => 'plugin_webhook_action_targets',
 		'NotificationTargetMailCollector' => 'plugin_webhook_action_targets',
+		'PluginFormcreatorNotificationTargetFormAnswer' => 'plugin_webhook_action_targets',
 		'PluginStatecheckNotificationTargetRule' => 'plugin_webhook_action_targets'];
 	$plugin = new Plugin();
 	if ($plugin->isActivated('webhook')) {
@@ -107,7 +109,7 @@ function plugin_version_webhook() {
 
    return [
       'name' => _n('Webhook', 'Webhooks', 2, 'webhook'),
-      'version' => '1.0.6',
+      'version' => '1.0.7',
       'author'  => "Eric Feron",
       'license' => 'GPLv2+',
       'homepage'=> 'https://github.com/ericferon/glpi-webhook',
