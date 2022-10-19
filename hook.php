@@ -40,6 +40,7 @@ function plugin_webhook_install() {
 			while ($data = $DB->fetchRow($result)) {
 				if ($data[0] == "Encoded Basic Authentication") {
 					$DB->runFile(Plugin::getPhpDir("webhook")."/sql/update-1.0.2.sql");
+					Session::addMessageAfterRedirect('<font color="red"><b>'.__('!! Authentication types have been modified !!<br/>!! You should review them in Webhooks configuration !!').'</b></font>');
 				}
 			}
 		}
