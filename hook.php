@@ -31,7 +31,7 @@ function plugin_webhook_install() {
 
 	if (!$DB->TableExists("glpi_plugin_webhook_configs")) {
 
-		$DB->runFile(Plugin::getPhpDir("webhook")."/sql/empty-1.0.2.sql");
+		$DB->runFile(Plugin::getPhpDir("webhook")."/sql/empty-1.0.3.sql");
 	}
 	else {
 		if ($DB->TableExists("glpi_plugin_webhook_secrettypes")) {
