@@ -161,7 +161,7 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
 									$headers = 
 										[
 										'Content-type: application/json',
-										'Authorization: Basic '.base64_encode($webhook_infos['additionnaloption']['user'] .":".$webhook_infos['additionnaloption']['secret'])
+										'Authorization: Basic '.$webhook_infos['additionnaloption']['user'] .":".$webhook_infos['additionnaloption']['secret']
 										];
 									break;
 
@@ -169,7 +169,7 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
 									$headers = 
 										[
 										'Content-type: application/json',
-										'Authorization: Basic '.base64_encode($webhook_infos['additionnaloption']['user'] .":".$webhook_infos['additionnaloption']['secret'])
+										'Authorization: Basic '.base64_encode(htmlspecialchars_decode($webhook_infos['additionnaloption']['user']).":".htmlspecialchars_decode($webhook_infos['additionnaloption']['secret']))
 										];
 									break;
 
