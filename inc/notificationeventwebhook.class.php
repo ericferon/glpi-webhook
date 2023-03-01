@@ -23,6 +23,7 @@
  along with Webhook. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
+use Glpi\Toolbox\Sanitizer;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -142,6 +143,8 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
 							if ($template_datas = $template->getByLanguage($webhook_infos['language']))
 							{
 								$data = &$notificationtarget->getForTemplate($event, $options);
+								$template_datas  = Sanitizer::unsanitize($template_datas);
+								$data = Sanitizer::unsanitize($data);
 								if (isset($template_datas['content_text']) && !empty($template_datas['content_text']))
 									$content = NotificationTemplate::process($template_datas['content_text'], $data);
 								else
