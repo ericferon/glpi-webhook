@@ -192,7 +192,7 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
 
 								if ( $status != 200 && $status != 201 ) {
 									Session::addMessageAfterRedirect("<font color='red'>"."Error: call to URL $url failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl)."</font>", false, ERROR);
-									Toolbox::logInFile("webhook", "Error: call to URL $url failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl).PHP_EOL);
+									Toolbox::logInFile("webhook", "Error: call to URL $url failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl).PHP_EOL."HTTP Headers : ".print_r($headers,true).PHP_EOL."POST Content : ".print_r($content,true).PHP_EOL);
 								}
 
 								curl_close($curl);
