@@ -141,7 +141,7 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
 							$key = $webhook_infos[static::getTargetFieldName()];
 							$url = $webhook_infos['additionnaloption']['address']; 
 							$url = NotificationTemplate::process($webhook_infos['additionnaloption']['address'], $data); // substitute variables in url
-							$url = str_replace(['\n', '\r', '\t'], ['', '', ''], htmlentities($url)); // translate HTML-significant characters and suppress remaining escape characters
+							$url = str_replace(["\n", "\r", "\t"], ['', '', ''], htmlentities($url)); // translate HTML-significant characters and suppress remaining escape characters
 							if ($template_datas = $template->getByLanguage($webhook_infos['language']))
 							{
 								$data = &$notificationtarget->getForTemplate($event, $options);
@@ -159,7 +159,7 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
 									($doublequotes > $singlequotes) ? $quote='"' : $quote="'";
 									$data = str_replace([$quote], ['\\'.$quote], $data);
 								}
-								$data = str_replace(['\n', '\r', '\t'], ['\\\\n', '\\\\r', '\\\\t'], $data);
+								$data = str_replace(["\n", "\r", "\t"], ['\\n', '\\r', '\\t'], $data);
 
 								$content = NotificationTemplate::process($template, $data);
 								$curl = curl_init($url);
