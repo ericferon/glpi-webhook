@@ -97,7 +97,7 @@ function plugin_init_webhook() {
 			|| Session::haveRight("config", UPDATE)) {
 				$PLUGIN_HOOKS['config_page']['webhook'] = 'front/config.php';
 			}
-			if (Session::haveRight("plugin_webhook", READ)) {
+			if (Session::haveRight("plugin_webhook_configuration", READ)) {
 				$PLUGIN_HOOKS['menu_toadd']['webhook'] = ["config" => 'PluginWebhookConfigMenu'];
 			}
 		}
@@ -109,7 +109,7 @@ function plugin_version_webhook() {
 
    return [
       'name' => _n('Webhook', 'Webhooks', 2, 'webhook'),
-      'version' => '1.0.12',
+      'version' => '1.0.13',
       'author'  => "Eric Feron",
       'license' => 'GPLv2+',
       'homepage'=> 'https://github.com/ericferon/glpi-webhook',
