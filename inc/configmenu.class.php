@@ -24,7 +24,7 @@
  --------------------------------------------------------------------------
  */
 class PluginWebhookConfigMenu extends CommonGLPI {
-   static $rightname = 'plugin_webhook';
+   static $rightname = 'plugin_webhook_configuration';
 
    static function getMenuName() {
       return _n('Webhook configuration', 'Webhooks configuration', 2, 'webhook');

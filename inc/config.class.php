@@ -31,21 +31,13 @@ if (!defined('GLPI_ROOT')) {
 class PluginWebhookConfig extends CommonDBTM {
 
    public $dohistory=true;
-   static $rightname = "plugin_webhook";
+   static $rightname = "plugin_webhook_configuration";
    protected $usenotepad         = true;
    const WEBHOOK_TYPE = 99;
    
    static function getTypeName($nb=0) {
 
-      return __('Webhooks', 'webhook');
-   }
-
-   public static function canCreate() {
-      return Session::haveRight(static::$rightname, UPDATE);
-   }
-
-   public static function canView() {
-      return Session::haveRight(static::$rightname, READ);
+      return __('Webhooks Config', 'webhook');
    }
 
    // search fields from GLPI 9.3 on
