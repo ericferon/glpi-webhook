@@ -29,6 +29,18 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
+function str_replace_deep($search, $replace, $subject) {
+    if (is_array($subject))
+    {
+        foreach($subject as &$oneSubject)
+            $oneSubject = str_replace_deep($search, $replace, $oneSubject);
+        unset($oneSubject);
+        return $subject;
+    } else {
+        return str_replace($search, $replace, $subject);
+    }
+}	
+
 class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract implements NotificationEventInterface {
 
    static public function getTargetFieldName() {
@@ -105,7 +117,7 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
          return false;
    }
 
-	static public function extraRaise($params) {
+static public function extraRaise($params) {
 		$notificationtargetclass = get_class($params['notificationtarget']);
 		$entity = $params['notificationtarget']->entity;
 		$event = $params['event'];
@@ -136,15 +148,19 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
 					$notificationtarget->addForTarget($target, $params['options']);
 
 					foreach ($notificationtarget->getTargets() as $webhook_infos) {
-						if (PluginWebhookNotificationEventWebhook::validateSendTo($event, $webhook_infos))
+						if (isset($webhook_infos['additionnaloption'])
+						&& isset($webhook_infos['additionnaloption']['address'])
+						&& PluginWebhookNotificationEventWebhook::validateSendTo($event, $webhook_infos))
 						{
+							if (!isset($options['additionnaloption']))
+								$options['additionnaloption'] = $webhook_infos['additionnaloption'];
+							$data = &$notificationtarget->getForTemplate($event, $options);
 							$key = $webhook_infos[static::getTargetFieldName()];
 							$url = $webhook_infos['additionnaloption']['address']; 
 							$url = NotificationTemplate::process($webhook_infos['additionnaloption']['address'], $data); // substitute variables in url
 							$url = str_replace(["\n", "\r", "\t"], ['', '', ''], htmlentities($url)); // translate HTML-significant characters and suppress remaining escape characters
 							if ($template_datas = $template->getByLanguage($webhook_infos['language']))
 							{
-								$data = &$notificationtarget->getForTemplate($event, $options);
 								$template_datas  = Sanitizer::unsanitize($template_datas); // unescape html from DB
 								$data = Sanitizer::unsanitize($data);
 								if (isset($template_datas['content_text']) && !empty($template_datas['content_text']))
@@ -152,14 +168,8 @@ class PluginWebhookNotificationEventWebhook extends NotificationEventAbstract im
 								else
 									$template = $template_datas['content_html'];
 
-								// find which single or double quotes are used as delimiter and escape it (as the LF, CR and TAB characters)
-								$doublequotes = substr_count($template,'"');
-								$singlequotes = substr_count($template,"'");
-								if ($doublequotes > 0 || $singlequotes > 0) {
-									($doublequotes > $singlequotes) ? $quote='"' : $quote="'";
-									$data = str_replace([$quote], ['\\'.$quote], $data);
-								}
-								$data = str_replace(["\n", "\r", "\t"], ['\\n', '\\r', '\\t'], $data);
+								// escape double quotes (as the LF, CR and TAB characters)
+								$data = str_replace_deep(["\n", "\r", "\t", '"'], ['\\n', '\\r', '\\t', '\\"'], $data);
 
 								$content = NotificationTemplate::process($template, $data);
 								$curl = curl_init($url);
