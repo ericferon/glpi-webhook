@@ -23,6 +23,11 @@
 	</authors>
 	<versions>
 		<version>
+			<num>1.0.17</num>
+			<compatibility>>=10.0.3</compatibility>
+			<download_url>https://github.com/ericferon/glpi-webhook/releases/download/v1.0.17/webhook-v1.0.17.tar.gz</download_url>
+		</version>
+		<version>
 			<num>1.0.16</num>
 			<compatibility>>=10.0.3</compatibility>
 			<download_url>https://github.com/ericferon/glpi-webhook/releases/download/v1.0.16/webhook-v1.0.16.tar.gz</download_url>

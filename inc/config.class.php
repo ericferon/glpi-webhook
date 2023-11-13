@@ -85,6 +85,14 @@ class PluginWebhookConfig extends CommonDBTM {
          'datatype' => 'dropdown'
       ];
 
+      $tab[] = [
+         'id'       => '10',
+         'table'    => $this->getTable(),
+         'field'    => 'debug',
+         'name'     => __('Debug mode', 'webhook'),
+         'datatype' => 'bool'
+      ];
+
        $tab[] = [
          'id'            => '72',
          'table'         => $this->getTable(),
@@ -146,10 +154,10 @@ class PluginWebhookConfig extends CommonDBTM {
 	  echo "</tr>";
 	  
       echo "<tr class='tab_bg_1'>";
-      //empty
-      echo "<td>"."</td>";
+      //debug mode
+      echo "<td>".__('Debug mode', 'webhook')."</td>";
       echo "<td>";
-      ;
+      Dropdown::showYesNo('debug',$this->fields['debug']);
       echo "</td>";
       //user
       echo "<td>".__('User')."</td>";

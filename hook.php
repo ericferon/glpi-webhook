@@ -31,7 +31,7 @@ function plugin_webhook_install() {
 
 	if (!$DB->TableExists("glpi_plugin_webhook_configs")) {
 
-		$DB->runFile(Plugin::getPhpDir("webhook")."/sql/empty-1.0.3.sql");
+		$DB->runFile(Plugin::getPhpDir("webhook")."/sql/empty-1.0.4.sql");
 	}
 	else {
 		if ($DB->TableExists("glpi_plugin_webhook_secrettypes")) {
@@ -43,6 +43,9 @@ function plugin_webhook_install() {
 					Session::addMessageAfterRedirect('<font color="red"><b>'.__('!! Authentication types have been modified !!<br/>!! You should review them in Webhooks configuration !!').'</b></font>');
 				}
 			}
+		}
+		if (!$DB->FieldExists("glpi_plugin_webhook_configs","debug"))) {
+			$DB->runFile(Plugin::getPhpDir("webhook")."/sql/update-1.0.3.sql");
 		}
 	}
 
