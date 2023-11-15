@@ -44,7 +44,7 @@ function plugin_webhook_install() {
 				}
 			}
 		}
-		if (!$DB->FieldExists("glpi_plugin_webhook_configs","debug"))) {
+		if (!$DB->FieldExists("glpi_plugin_webhook_configs","debug")) {
 			$DB->runFile(Plugin::getPhpDir("webhook")."/sql/update-1.0.3.sql");
 		}
 	}
