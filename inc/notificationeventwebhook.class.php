@@ -29,7 +29,11 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-function str_replace_deep($search, $replace, $subject) {
+function str_replace_deep($search, $replace, $subject) {    
+    if (is_null($subject))
+    {
+        return '';
+    } 
     if (is_array($subject))
     {
         foreach($subject as &$oneSubject)
@@ -159,6 +163,8 @@ static public function extraRaise($params) {
 							$url = $webhook_infos['additionnaloption']['address']; 
 							$url = NotificationTemplate::process($webhook_infos['additionnaloption']['address'], $data); // substitute variables in url
 							$url = str_replace(["\n", "\r", "\t"], ['', '', ''], htmlentities($url)); // translate HTML-significant characters and suppress remaining escape characters
+							$css = $template->fields['css'];
+
 							if ($template_datas = $template->getByLanguage($webhook_infos['language']))
 							{
 								$template_datas  = Sanitizer::unsanitize($template_datas); // unescape html from DB
@@ -173,7 +179,8 @@ static public function extraRaise($params) {
 
 								$content = NotificationTemplate::process($template, $data);
 								$curl = curl_init($url);
-								$secrettype = $webhook_infos['additionnaloption']['plugin_webhook_secrettypes_id'];    
+								$secrettype = $webhook_infos['additionnaloption']['plugin_webhook_secrettypes_id'];
+								$headers = array();    
 								switch ($secrettype)
 								{
 									case 1: // No Authentication
@@ -202,7 +209,13 @@ static public function extraRaise($params) {
 									case 4: // JSON Web Token
 									break;
 								}
-								
+								//add custom headers from css -> json
+								$json_data = json_decode($css);
+								if ($json_data != NULL) {
+									foreach ($json_data as $k => $v) {
+										array_push($headers,$k . ': ' . $v);
+									}
+								}
 								curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 								curl_setopt($curl, CURLOPT_HEADER, false);
 								curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
