@@ -158,7 +158,7 @@ static public function extraRaise($params) {
 							$key = $webhook_infos[static::getTargetFieldName()];
 							$url = $webhook_infos['additionnaloption']['address']; 
 							$url = NotificationTemplate::process($webhook_infos['additionnaloption']['address'], $data); // substitute variables in url
-							$url = str_replace(["\n", "\r", "\t"], ['', '', ''], htmlentities($url)); // translate HTML-significant characters and suppress remaining escape characters
+							$url = str_replace(["\n", "\r", "\t"], ['', '', ''], $url); // translate HTML-significant characters and suppress remaining escape characters
 							if ($template_datas = $template->getByLanguage($webhook_infos['language']))
 							{
 								$template_datas  = Sanitizer::unsanitize($template_datas); // unescape html from DB
