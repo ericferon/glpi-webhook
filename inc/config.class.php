@@ -35,10 +35,21 @@ class PluginWebhookConfig extends CommonDBTM {
    protected $usenotepad         = true;
    const WEBHOOK_TYPE = 99;
    
+   protected $plugin_webhook_configs_id_field = 'plugin_webhook_configs_id';
+
    static function getTypeName($nb=0) {
 
       return __('Webhooks Config', 'webhook');
    }
+
+    /**
+     * called by children (PluginWebhookConfigHeader)
+     **/
+    public function getPluginWebhookConfigIdField()
+    {
+        return $this->plugin_webhook_configs_id_field;
+    }
+
 
    // search fields from GLPI 9.3 on
    function rawSearchOptions() {
@@ -60,7 +71,7 @@ class PluginWebhookConfig extends CommonDBTM {
 		 'massiveaction' => false
       ];
 
-      $tab[] = [
+/*      $tab[] = [
          'id'            => '3',
          'table'         => $this->getTable(),
          'field'         => 'address',
@@ -84,7 +95,7 @@ class PluginWebhookConfig extends CommonDBTM {
          'name'     => PluginWebhookSecretType::getTypeName(1),
          'datatype' => 'dropdown'
       ];
-
+*/
       $tab[] = [
          'id'       => '10',
          'table'    => $this->getTable(),
@@ -109,6 +120,7 @@ class PluginWebhookConfig extends CommonDBTM {
 
       $ong = [];
       $this->addDefaultFormTab($ong);
+      $this->addStandardTab('PluginWebhookConfigRequest', $ong, $options);
       $this->addStandardTab('Log', $ong, $options);
 
       return $ong;
@@ -127,7 +139,7 @@ class PluginWebhookConfig extends CommonDBTM {
       echo "</td>";
 	  echo "</tr>";
 
-      echo "<tr class='tab_bg_1'>";
+/*      echo "<tr class='tab_bg_1'>";
       //operation
       echo "<td>".__('REST Verb').": </td>";
       echo "<td>";
@@ -152,7 +164,7 @@ class PluginWebhookConfig extends CommonDBTM {
       echo Html::input('secret',['value' => $this->fields['secret'], 'id' => "secret" , 'width' => '100%']);
       echo "</td>";
 	  echo "</tr>";
-	  
+*/	  
       echo "<tr class='tab_bg_1'>";
       //debug mode
       echo "<td>".__('Debug mode', 'webhook')."</td>";
@@ -160,11 +172,11 @@ class PluginWebhookConfig extends CommonDBTM {
       Dropdown::showYesNo('debug',$this->fields['debug']);
       echo "</td>";
       //user
-      echo "<td>".__('User')."</td>";
+/*      echo "<td>".__('User')."</td>";
       echo "<td>";
       echo Html::input('user',['value' => $this->fields['user'], 'id' => "user" , 'size' => 50]);
       echo "</td>";
-	  echo "</tr>";
+*/	  echo "</tr>";
 
       $this->showFormButtons($options);
 

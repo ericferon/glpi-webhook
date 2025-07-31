@@ -30,6 +30,8 @@ if (!defined('GLPI_ROOT')) {
 }
 
 function str_replace_deep($search, $replace, $subject) {
+	if (is_null($subject))
+		return '';
     if (is_array($subject))
     {
         foreach($subject as &$oneSubject)
@@ -158,7 +160,8 @@ static public function extraRaise($params) {
 							$key = $webhook_infos[static::getTargetFieldName()];
 							$url = $webhook_infos['additionnaloption']['address']; 
 							$url = NotificationTemplate::process($webhook_infos['additionnaloption']['address'], $data); // substitute variables in url
-							$url = str_replace(["\n", "\r", "\t"], ['', '', ''], htmlentities($url)); // translate HTML-significant characters and suppress remaining escape characters
+//							$url = str_replace(["\n", "\r", "\t"], ['', '', ''], htmlentities($url)); // translate HTML-significant characters and suppress remaining escape characters
+							$url = str_replace(["\n", "\r", "\t"], ['', '', ''], $url); // suppress remaining escape characters
 							if ($template_datas = $template->getByLanguage($webhook_infos['language']))
 							{
 								$template_datas  = Sanitizer::unsanitize($template_datas); // unescape html from DB
@@ -169,11 +172,12 @@ static public function extraRaise($params) {
 									$template = $template_datas['content_html'];
 
 								// escape double quotes (as the LF, CR and TAB characters)
-								$data = str_replace_deep(["\n", "\r", "\t", '"'], ['\\n', '\\r', '\\t', '\\"'], $data);
+								$data = str_replace_deep(["\\","\n", "\r", "\t", '"'], ['\\\\', '\\n', '\\r', '\\t', '\\"'], $data);
 
 								$content = NotificationTemplate::process($template, $data);
 								$curl = curl_init($url);
-								$secrettype = $webhook_infos['additionnaloption']['plugin_webhook_secrettypes_id'];    
+								$secrettype = $webhook_infos['additionnaloption']['plugin_webhook_secrettypes_id']; 
+								$headers = array();
 								switch ($secrettype)
 								{
 									case 1: // No Authentication
@@ -213,7 +217,7 @@ static public function extraRaise($params) {
 
 								$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-								if ( $status != 200 && $status != 201 ) {
+								if ( $status < 200 || $status >= 300) {
 									Session::addMessageAfterRedirect("<font color='red'>"."Error: call to URL $url failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl)."</font>", false, ERROR);
 									Toolbox::logInFile("webhook", "Error : call to URL $url failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl).PHP_EOL."HTTP Headers : ".print_r($headers,true).PHP_EOL."POST Content : ".print_r($content,true).PHP_EOL);
 								}
